@@ -15,6 +15,7 @@ export default function ChatScreen({ route }) {
       .doc(chatname)
       .onSnapshot((snapshot) => {
         console.log("New Snapshot!");
+        if (!snapshot) return;
         let newMessages = snapshot.data().messages.map((singleMessage) => {
           singleMessage.createdAt = singleMessage.createdAt.seconds * 1000;
           return singleMessage;
@@ -47,9 +48,9 @@ export default function ChatScreen({ route }) {
         // current "blue bubble" user
         _id: firebase.auth().currentUser.uid,
         name: firebase.auth().currentUser.displayName,
-        avatar: require("../assets/avatar.png"),
+        avatar: "http://jennylihan.com/images/jenny_stamp2.png",
       }}
-      inverted={true}
+      inverted={false}
       showUserAvatar={true}
       renderUsernameOnMessage={true}
     />
