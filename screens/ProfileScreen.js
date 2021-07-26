@@ -1,5 +1,5 @@
 import firebase from "@firebase/app";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Colors from "../constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import {
@@ -16,13 +16,12 @@ import { useActionSheet } from "@expo/react-native-action-sheet";
 import * as ImagePicker from "expo-image-picker";
 
 export default function ProfileScreen() {
-  let user = firebase.auth().currentUser;
-
+  var user = firebase.auth().currentUser;
   const { showActionSheetWithOptions } = useActionSheet();
   const [imageURI, setImageURI] = useState(user ? user.photoURL : "");
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [displayName, setDisplayName] = useState(user.displayName);
+  const [displayName, setDisplayName] = useState(user ? user.displayName : "");
 
   const onPressLogout = async () => {
     await firebase
@@ -141,7 +140,11 @@ export default function ProfileScreen() {
             </TouchableOpacity>
             <View style={styles.Row}>
               <Text style={styles.userNameText}>{displayName}</Text>
-              <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <TouchableOpacity
+                onPress={() => {
+                  setModalVisible(true);
+                }}
+              >
                 <Ionicons
                   name={"create-outline"}
                   size={25}
@@ -163,9 +166,9 @@ export default function ProfileScreen() {
             </TouchableOpacity>
           </View>
           <EditModal
-            setDisplayName={setDisplayName}
             setModalVisible={setModalVisible}
             modalVisible={modalVisible}
+            setDisplayName={setDisplayName}
           ></EditModal>
         </>
       ) : (
@@ -179,20 +182,19 @@ function EditModal(props) {
   const [newName, setNewName] = useState("");
 
   const onPressSaveNewName = async () => {
-    props.setModalVisible(!props.modalVisible);
+    props.setModalVisible(false);
     const user = firebase.auth().currentUser;
-    props.setDisplayName(newName);
 
     await user
-      .updateProfile({
-        displayName: newName,
-      })
+      .updateProfile({ displayName: newName })
       .then(() => {
         console.log("Updated display name!");
       })
       .catch((error) => {
         alert(error.message);
       });
+
+    props.setDisplayName(newName);
   };
 
   return (
@@ -208,14 +210,12 @@ function EditModal(props) {
         <View style={styles.modalView}>
           <Text style={styles.modalText}>Change your name:</Text>
           <TextInput autoFocus={true} onChangeText={setNewName} />
-
           <TouchableOpacity
             style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
             onPress={onPressSaveNewName}
           >
             <Text style={styles.textStyle}>Save New Name</Text>
           </TouchableOpacity>
-
           <TouchableOpacity
             onPress={() => {
               props.setModalVisible(!props.modalVisible);
