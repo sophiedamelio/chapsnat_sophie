@@ -5,7 +5,6 @@ import {
   View,
   Image,
   Text,
-  SafeAreaView,
   ImageBackground,
   StatusBar,
 } from "react-native";
