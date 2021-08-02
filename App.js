@@ -7,6 +7,7 @@ import ChatScreen from "./screens/ChatScreen";
 import FriendsScreen from "./screens/FriendsScreen";
 import LoginScreen from "./screens/LoginScreen";
 import SignupScreen from "./screens/SignupScreen";
+import TestScreen from "./screens/TestScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import BottomTabNavigator from "./navigation/BottomTabNavigator";
 import firebase from "@firebase/app";
@@ -29,13 +30,14 @@ function App() {
     <ActionSheetProvider>
       <View style={styles.container}>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Tabs" mode="card">
+          <Stack.Navigator initialRouteName="Tabs" mode="modal">
             {isSignedIn ? (
               <>
                 <Stack.Screen name="Tabs" component={BottomTabNavigator} />
                 <Stack.Screen name="Chat" component={ChatScreen} />
                 <Stack.Screen name="Friends" component={FriendsScreen} />
                 <Stack.Screen name="Profile" component={ProfileScreen} />
+                <Stack.Screen name="Test" component={TestScreen} />
               </>
             ) : (
               <>

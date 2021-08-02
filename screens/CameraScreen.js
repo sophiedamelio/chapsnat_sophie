@@ -36,6 +36,11 @@ export default function CameraScreen() {
             <Text style={styles.text}> Flip </Text>
           </TouchableOpacity>
         </View>
+        <View style={styles.lensButtonContainer}>
+          <TouchableOpacity>
+            <Text>Turn on Lens</Text>
+          </TouchableOpacity>
+        </View>
       </Camera>
     </View>
   );
@@ -62,5 +67,11 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     color: "white",
+  },
+  lensButtonContainer: {
+    flex: 1,
+    backgroundColor: "transparent",
+    flexDirection: "row",
+    margin: 50,
   },
 });

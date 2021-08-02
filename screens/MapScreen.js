@@ -14,7 +14,7 @@ const LOS_ANGELES_REGION = {
   longitudeDelta: 0.0421,
 };
 
-export default function MapScreen() {
+export default function MapScreen({ navigation }) {
   const [currLocation, setCurrLocation] = useState(null);
   const mapView = useRef(null);
 
@@ -55,6 +55,10 @@ export default function MapScreen() {
             coordinate={currLocation}
             title={"Current Location"}
             description={"You are here!"}
+            onCalloutPress={(e) => {
+              console.log(e.nativeEvent);
+              navigation.navigate("Test");
+            }}
           />
         ) : null}
       </MapView>
