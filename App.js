@@ -16,7 +16,17 @@ export default function App() {
         user: {
           _id: 2,
           name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
+          avatar: 'https://i.imgur.com/BZzsME5.jpg',
+        }
+      }, 
+      {
+        _id: 2,
+        text: 'is this blue?',
+        createdAt: new Date(),
+        user: {
+          _id: 1,
+          name: 'Sophie',
+          avatar: "https://i.imgur.com/8C9wiYe.png"
         }
       }
     ])
@@ -35,8 +45,14 @@ export default function App() {
       messages={messages}
       onSend={messages => onSend(messages)}
       user={{
-        _id:1
+        _id: 1,
+        name: 'Sophie',
+        avatar: "https://i.imgur.com/8C9wiYe.png"
       }}
+      placeholder={"please type something here..."}
+      showUserAvatar={true}
+      alwaysShowSend={true}
+      renderUsernameOnMessage={true}
       />
   );
 }
