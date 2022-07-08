@@ -1,4 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
+import db from "./firebase";
 import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat'
@@ -8,29 +9,14 @@ export default function App() {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: 'Hello developer',
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: 'React Native',
-          avatar: 'https://i.imgur.com/BZzsME5.jpg',
-        }
-      }, 
-      {
-        _id: 2,
-        text: 'is this blue?',
-        createdAt: new Date(),
-        user: {
-          _id: 1,
-          name: 'Sophie',
-          avatar: "https://i.imgur.com/8C9wiYe.png"
-        }
-      }
-    ])
-  }, [])
+    db.collection("Chats")
+    .doc("mysecondchat")
+    .get()
+    .then((snapshot) => {
+      console.log(snapshot.id);
+      console.log(snapshot.data());
+    });
+  }, []);
 
   const onSend = useCallback((messages = []) => {
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
