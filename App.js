@@ -10,31 +10,20 @@ export default function App({ route }) {
   //const [chatDoc, setChatDoc] = useState(route.params.chatDoc);
   //const { chatName, currUser } = route.params;
 
-  async function fetchMessages(){
-    const chatsRef = db.collection('Chats');
-    const snapshot = await chatsRef.get();
-    console.log(snapshot, "<----snapshot")
-    let newMessages = snapshot.forEach(doc => {
-      console.log(doc.id, "=>", doc.data())
-      return doc.data();
-    })
-    setMessages(newMessages);
-  }
 
   useEffect(() => {
-    fetchMessages();
-    //db.collection("Chats")
-    //.doc("mysecondchat")
-    //.get()
-    //.then((snapshot) => {
-    //  let newMessages = snapshot.data().messages.map((singleMessage) => {
-    //    singleMessage.createdAt = singleMessage.createdAt.seconds * 1000;
-    //    return singleMessage;
-    //  });
-      //console.log(snapshot.id);
-      //console.log(snapshot.data().messages, "<-- data");
-      //setMessages(newMessages);
-    //});
+    db.collection("Chats")
+    .doc("mysecondchat")
+    .get()
+    .then((snapshot) => {
+      //let newMessages = snapshot.data().messages.map((singleMessage) => {
+      //  singleMessage.createdAt = singleMessage.createdAt.seconds * 1000;
+      //  return singleMessage;
+      //});
+      console.log(snapshot.id);
+      console.log(snapshot.data().messages, "<-- data");
+      setMessages(snapshot.data().messages);
+    });
   }, []);
 
   const onSend = useCallback((messages = []) => {
