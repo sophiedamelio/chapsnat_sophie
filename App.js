@@ -5,38 +5,47 @@ import { StyleSheet, Text, View } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat'
 
 
-export default function App({ route }) {
+export default function App() {
   const [messages, setMessages] = useState([]);
   //const [chatDoc, setChatDoc] = useState(route.params.chatDoc);
   //const { chatName, currUser } = route.params;
 
-  const fetchMessages = async()=>{
-    const response = db.collection("Chats");
-    const data = await response.get();
-    data.docs.forEach(item =>{
-      setMessages([...messages, item.data()])
-    })
-  }
+  //const fetchMessages = async() => {
+  //  const response = db.collection("Chats");
+  //  const data = await response.get();
+  //  data.docs.forEach(item =>{
+  //    console.log(item.data().messages, "<_--- each message?")
+  //    setMessages([...messages, item.data().messages])
+  //  })
+  //}
 
-  useEffect(() => {
-    //db.collection("Chats")
-    //.doc("mysecondchat")
-    //.get()
-    //.then((snapshot) => {
-    //  //let newMessages = snapshot.data().messages.map((singleMessage) => {
-    //  //  singleMessage.createdAt = singleMessage.createdAt.seconds * 1000;
-    //  //  return singleMessage;
-    //  //});
-    //  console.log(snapshot.id);
-    //  console.log(snapshot.data().messages, "<-- data");
-    //  setMessages(snapshot.data().messages);
-    //});
-    fetchMessages();
-  }, []);
 
   const onSend = useCallback((messages = []) => {
-    setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
-  }, [])
+    db.collection("Chats")
+    .doc("myfirstchat")
+    .update({
+        // arrayUnion appends the message to the existing array
+        messages: firebase.firestore.FieldValue.arrayUnion(messages[0]),
+    });
+    setMessages((previousMessages) =>
+    GiftedChat.append(previousMessages, messages)
+    );
+  }, []);
+
+  useEffect(() => {
+    let unsubscribeFromNewSnapshots = db
+      .collection("Chats")
+      .doc("mysecondchat")
+      .onSnapshot((snapshot) => {
+        console.log("New Snapshot!", snapshot);
+        setMessages(snapshot.data().messages);
+      });
+  
+    return function cleanupBeforeUnmounting() {
+      unsubscribeFromNewSnapshots();
+    };
+  }, []);
+
 
   return (
     //<View style={styles.container}>
