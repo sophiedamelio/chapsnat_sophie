@@ -10,19 +10,6 @@ import { GiftedChat } from 'react-native-gifted-chat'
 export default function App() {
   const [messages, setMessages] = useState([]);
 
-  const onSend = useCallback((messages = []) => {
-
-    db.collection("Chats")
-    .doc("myfirstchat")
-    .update({
-        // arrayUnion appends the message to the existing array
-        messages: firebase.firestore.FieldValue.arrayUnion(messages[0]),
-    });
-    setMessages((previousMessages) =>
-    GiftedChat.append(previousMessages, messages)
-    );
-  }, []);
-
   useEffect(() => {
     let unsubscribeFromNewSnapshots = db
       .collection("Chats")
@@ -37,12 +24,25 @@ export default function App() {
     };
   }, []);
 
+  const onSend = useCallback((messages = []) => {
+    db.collection("Chats")
+    .doc("myfirstchat")
+    .update({
+        // arrayUnion appends the message to the existing array
+        messages: firebase.firestore.FieldValue.arrayUnion(messages[0]),
+    });
+    setMessages((previousMessages) =>
+    GiftedChat.append(previousMessages, messages)
+    );
+  }, []);
+
 
   return (
     <GiftedChat
       messages={messages}
       onSend={messages => onSend(messages)}
       user={{
+        // current "blue bubble" user
         _id: "1",
         name: 'Sophie',
         avatar: "https://i.imgur.com/8C9wiYe.png"
