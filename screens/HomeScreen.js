@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FlatList, Text, View, TouchableOpacity, StyleSheet } from "react-native";
-import { collection, getDocs, onSnapshot, doc } from 'firebase/firestore';
+import { collection, getDocs, onSnapshot, doc, query } from 'firebase/firestore';
 
 import db from "../firebase";
 
@@ -9,19 +9,30 @@ export default function HomeScreen({ navigation }) {
 
 	useEffect(() => {
 		// begin updating this code for web 9
-		let unsubscribeFromNewSnapshots = onSnapshot(col)
+		const q = query(collection(db, "Chats"));
 
-		let chatsRef = db.collection("Chats");
-		chatsRef.get().then((querySnapshot) => {
-		let newChatList = [];
-		querySnapshot.forEach((doc) => {
-			let newChat = { ...doc.data() };
-			newChat.id = doc.id;
-			newChatList.push(newChat);
-			console.log(newChatList);
-		});
-		setChatList(newChatList);
-    });
+		let unsubscribeFromNewSnapshots = onSnapshot(q, (querySnapshot) => {
+			querySnapshot.forEach((doc) => {
+				setChatList([...chatList], doc.data().name)
+			})
+			console.log(chatList, "<---- chatList")
+		})
+
+		return function cleanupBeforeUnmounting() {
+			unsubscribeFromNewSnapshots();
+		};
+
+		//let chatsRef = db.collection("Chats");
+		//chatsRef.get().then((querySnapshot) => {
+		//let newChatList = [];
+		//querySnapshot.forEach((doc) => {
+		//	let newChat = { ...doc.data() };
+		//	newChat.id = doc.id;
+		//	newChatList.push(newChat);
+		//	console.log(newChatList);
+		//});
+		//setChatList(newChatList);
+    //});
 	}, []);
 
 return (

@@ -18,16 +18,11 @@ useEffect(() => {
 	};
 }, []);
 
-const onSend = useCallback((messages = []) => {
-	db.collection("Chats")
-		.doc("myfirstchat")
-		.update({
-		// arrayUnion appends the message to the existing array
-		messages: firebase.firestore.FieldValue.arrayUnion(messages[0]),
-		});
-	setMessages((previousMessages) =>
-		GiftedChat.append(previousMessages, messages)
-	);
+const onSend = useCallback(async (messages = []) => {
+    await updateDoc(doc(db, "Chats", "myfirstchat"), {
+		messages: arrayUnion(messages[0])
+    });
+    setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
 }, []);
 
 return (
