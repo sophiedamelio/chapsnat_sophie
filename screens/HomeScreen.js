@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { FlatList, Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import { collection, getDocs, onSnapshot, doc } from 'firebase/firestore';
+
 import db from "../firebase";
 
 export default function HomeScreen({ navigation }) {
 	const [chatList, setChatList] = useState([]);
 
 	useEffect(() => {
+		// begin updating this code for web 9
+		let unsubscribeFromNewSnapshots = onSnapshot(col)
+
 		let chatsRef = db.collection("Chats");
 		chatsRef.get().then((querySnapshot) => {
 		let newChatList = [];
