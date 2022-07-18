@@ -17,6 +17,7 @@ export default function HomeScreen({ navigation }) {
 	if (user !== null) {
 		return (
 			<View style={styles.container}>
+			{/* this does not update properly at the moment... */}
 			<Text>Hello, {user.email}! </Text>
 
 			<TouchableOpacity style={styles.logoutBtn} onPress={() => {
