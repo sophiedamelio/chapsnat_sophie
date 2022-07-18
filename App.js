@@ -6,6 +6,8 @@ import { collection, getDocs, onSnapshot, doc } from 'firebase/firestore';
 
 import ChatScreen from "./screens/ChatScreen";
 import HomeScreen from "./screens/HomeScreen";
+import LoginScreen from "./screens/LoginScreen";
+import SignupScreen from "./screens/SignupScreen"
 
 const Stack = createStackNavigator();
 
@@ -13,8 +15,10 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
-        {/*<Stack.Screen name="Home" component={HomeScreen} />*/}
+        <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Chat" component={ChatScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Signup" component={SignupScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
