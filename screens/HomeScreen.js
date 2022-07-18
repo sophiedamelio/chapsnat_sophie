@@ -9,55 +9,57 @@ export default function HomeScreen({ navigation }) {
 
 	const auth = getAuth();
 	const user = auth.currentUser;
-	//console.log(auth, "<--- auth")
-	//console.log(user, "<--- user")
 
-	console.log(user, "<-- curr user in home screen")
+	useEffect(() => {
+		console.log(user, "<-- curr user in home screen, we need this log to re-render the page")
+	});
+
+	if (user !== null) {
+		return (
+			<View style={styles.container}>
+			<Text>Hello, {user.email}! </Text>
+
+			<TouchableOpacity style={styles.logoutBtn} onPress={() => {
+				signOut(auth).then(() => {
+					// Sign-out successful.
+					user = null;
+				}).catch((error) => {
+					// An error happened.
+				});
+				console.log(auth, "<---- auth")
+				navigation.navigate("Login")
+			}}>
+				<Text style={styles.loginText}>sign out</Text>
+			</TouchableOpacity>
 
 
-if (user) {
-	return (
+			<TouchableOpacity
+				onPress={() => navigation.navigate("Chat")}
+			>
+				<Text style={styles.item}>Chat</Text>
+			</TouchableOpacity>
+			</View>
+			)
+	} else if (user === null) {
+		return (
 		<View style={styles.container}>
-
-		<TouchableOpacity style={styles.logoutBtn} onPress={() => {
-			signOut(auth).then(() => {
-				// Sign-out successful.
-			}).catch((error) => {
-				// An error happened.
-			});
-			console.log(auth, "<---- auth")
-			navigation.navigate("Login")
-		}}>
-			<Text style={styles.loginText}>sign out</Text>
+		<TouchableOpacity
+			onPress={() => navigation.navigate("Login")}
+		>
+			<Text style={styles.item}>login</Text>
 		</TouchableOpacity>
-
 
 		<TouchableOpacity
-			onPress={() => navigation.navigate("Chat")}
+			onPress={() => navigation.navigate("Signup")}
 		>
-			<Text style={styles.item}>Chat</Text>
+			<Text style={styles.item}>signup</Text>
 		</TouchableOpacity>
+
+			
 		</View>
-		)
-} else {
-	return (
-	<View style={styles.container}>
-	<TouchableOpacity
-		onPress={() => navigation.navigate("Login")}
-	>
-		<Text style={styles.item}>login</Text>
-	</TouchableOpacity>
-
-	<TouchableOpacity
-		onPress={() => navigation.navigate("Signup")}
-	>
-		<Text style={styles.item}>signup</Text>
-	</TouchableOpacity>
-
-		
-	</View>
-	);
-}
+		);
+	}
+	
 }
 
 const styles = StyleSheet.create({

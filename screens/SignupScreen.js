@@ -9,18 +9,19 @@ export default function LoginScreen({navigation}) {
 
 	const auth = getAuth();
 
-
 	async function handleSubmit() {
 		console.log("handle submit envoked!!")
-		console.log(email, "<--- email")
-		console.log(password, "<--- pass")
+		//console.log(email, "<--- email")
+		//console.log(password, "<--- pass")
 
 
-		let newUser = await createUserWithEmailAndPassword(auth, email, password)
+		await createUserWithEmailAndPassword(auth, email, password)
 		.then((userCredential) => {
 			// Signed in 
+			console.log(userCredential, "<--- user cred in signup")
 			const user = userCredential.user;
-			console.log(user, "<--- user in create function")
+			auth.currentUser = user;
+			//console.log(user, "<--- user in signup function")
 			// ...
 		})
 		.catch((error) => {
@@ -29,8 +30,9 @@ export default function LoginScreen({navigation}) {
 			// ..
 		});
 		
-		console.log(newUser, "<--- new user???")
+		//console.log(newUser, "<--- new user???")
 	}
+	console.log(auth, "<--- auth")
 
 
 	return (
@@ -40,7 +42,7 @@ export default function LoginScreen({navigation}) {
 				<TextInput
 					placeholder='Email'
 					placeholderTextColor="#003f5c"
-					onChangeText={(email) => setEmail(email)}
+					//onChangeText={(email) => setEmail(email)}
 				/>
 			</View>
 			<View style={styles.inputView}>
@@ -48,7 +50,7 @@ export default function LoginScreen({navigation}) {
 					placeholder='Password'
 					secureTextEntry={true}
 					placeholderTextColor="#003f5c"
-					onChangeText={(password) => setPassword(password)}
+					//onChangeText={(password) => setPassword(password)}
 				/>
 			</View>
 			
@@ -58,11 +60,27 @@ export default function LoginScreen({navigation}) {
 			}}>
 				<Text style={styles.loginText}>Signup</Text>
 			</TouchableOpacity>
+
+			<TouchableOpacity style={styles.redirectBtn} onPress={() => {
+				navigation.navigate("Login")
+			}}>
+				<Text>Already have an account? Login here</Text>
+			</TouchableOpacity>
 		</>
 	)
 }
 
 const styles = StyleSheet.create({
+	redirectBtn: {
+		width:"80%",
+		borderRadius:25,
+		height:50,
+		alignItems:"center",
+		justifyContent:"center",
+		marginTop:40,
+		backgroundColor:"grey",
+		color: "white"
+	},
 	inputView: {
 		backgroundColor: "#FFC0CB",
 		borderRadius: 30,
