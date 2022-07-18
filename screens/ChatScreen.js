@@ -10,7 +10,7 @@ export default function ChatScreen({ navigation }) {
 
 	useEffect(() => {
 		let unsubscribeFromNewSnapshots = onSnapshot(doc(db, "Chats", "myfirstchat"), (snapshot) => {
-			console.log("New Snapshot! ", snapshot.data().messages);
+			//console.log("New Snapshot! ", snapshot.data().messages);
 			setMessages(snapshot.data().messages);
 		});
 

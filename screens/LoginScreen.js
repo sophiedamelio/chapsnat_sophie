@@ -1,4 +1,5 @@
 import { Text, View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import {useState} from "react"
 
 
@@ -6,11 +7,36 @@ export default function LoginScreen({navigation}) {
 	const [email, setEmail] = useState();
 	const [password, setPassword] = useState();
 
-	function handleSubmit() {
+	const auth = getAuth();
+
+	async function handleSubmit() {
 		console.log("handle submit envoked!!")
 		console.log(email, "<--- email")
 		console.log(password, "<--- pass")
+	
+
+		await signInWithEmailAndPassword(auth, email, password)
+		//console.log("hello???")
+		.then((userCredential) => {
+			// Signed in 
+			console.log(userCredential, "<--- user cred")
+			const user = userCredential.user;
+			//auth.currentUser = user;
+			//console.log(user, "<---- userrrrr")
+			//return console.log(user, "<--- user in handlesub");
+		})
+		.catch((error) => {
+			const errorCode = error.code;
+			const errorMessage = error.message;
+		});
+		
+		let currentUser = auth.currentUser
+		console.log(currentUser, "<--- currentUser in login screen")
+		return currentUser;
 	}
+
+	//let currentUser = auth.currentUser
+	//console.log(currentUser, "<--- currentUser in login screen")
 
 
 	return (
