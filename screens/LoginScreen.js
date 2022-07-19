@@ -1,5 +1,5 @@
 import { Text, View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
-import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import {useState} from "react"
 
 
@@ -11,14 +11,9 @@ export default function LoginScreen({navigation}) {
 
 	async function handleSubmit() {
 		console.log("handle submit envoked!!")
-		//console.log(email, "<--- email")
-		//console.log(password, "<--- pass")
 
 		await signInWithEmailAndPassword(auth, email, password)
-		//console.log("hello???")
 		.then((userCredential) => {
-			// Signed in 
-			console.log(userCredential, "<--- user cred")
 			const user = userCredential.user; 
 		})
 		.catch((error) => {
@@ -27,8 +22,6 @@ export default function LoginScreen({navigation}) {
 		});
 
 		let currentUser = auth.currentUser
-		console.log(currentUser, "<--- currentUser in login screen")
-		//console.log(currentUser, "<-- curruser?")
 		navigation.navigate("Home")
 		return currentUser;
 	}

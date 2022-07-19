@@ -11,31 +11,21 @@ export default function LoginScreen({navigation}) {
 
 	async function handleSubmit() {
 		console.log("handle submit envoked!!")
-		//console.log(email, "<--- email")
-		//console.log(password, "<--- pass")
-
 
 		await createUserWithEmailAndPassword(auth, email, password)
 		.then((userCredential) => {
-			// Signed in 
-			console.log(userCredential, "<--- user cred in signup")
 			const user = userCredential.user;
 			auth.currentUser = user;
-			console.log(user, "<--- user in signup function")
-			// ...
 		})
 		.catch((error) => {
 			const errorCode = error.code;
 			const errorMessage = error.message;
-			console.log(errorCode, "<---- error code");
-			console.log(errorMessage, "<--- error message")
+			//console.log(errorCode, "<---- error code");
+			//console.log(errorMessage, "<--- error message")
 		});
 
 		navigation.navigate("Home")
-		//console.log(newUser, "<--- new user???")
 	}
-	console.log(auth, "<--- auth")
-
 
 	return (
 		<>
@@ -62,6 +52,7 @@ export default function LoginScreen({navigation}) {
 				<Text style={styles.loginText}>Signup</Text>
 			</TouchableOpacity>
 
+{/*  */}
 			<TouchableOpacity style={styles.redirectBtn} onPress={() => {
 				navigation.navigate("Login")
 			}}>

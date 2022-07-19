@@ -2,7 +2,6 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { collection, getDocs, onSnapshot, doc } from 'firebase/firestore';
 
 import ChatScreen from "./screens/ChatScreen";
 import HomeScreen from "./screens/HomeScreen";
@@ -11,7 +10,7 @@ import SignupScreen from "./screens/SignupScreen"
 
 const Stack = createStackNavigator();
 
-function App() {
+export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
@@ -35,5 +34,3 @@ const styles = StyleSheet.create({
     height: 44,
   },
 });
-
-export default App;

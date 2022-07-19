@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { FlatList, Text, View, TouchableOpacity, StyleSheet } from "react-native";
-import { collection, getDocs, onSnapshot, doc, query } from 'firebase/firestore';
-import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
+import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import { getAuth, signOut } from "firebase/auth";
 
-import db from "../firebase.js";
 
 export default function HomeScreen({ navigation }) {
 
@@ -37,8 +35,7 @@ export default function HomeScreen({ navigation }) {
 			</TouchableOpacity>
 
 			{/* this does not update properly at the moment... */}
-			<Text>Hello, {user.email}! </Text>
-
+			{/*<Text>Hello, {user.email}! </Text>*/}
 
 			<TouchableOpacity
 				onPress={() => navigation.navigate("Chat")}
