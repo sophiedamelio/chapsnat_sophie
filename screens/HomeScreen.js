@@ -1,19 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import { getAuth, signOut } from "firebase/auth";
 
 
 export default function HomeScreen({ navigation }) {
 
-	const [state, setState] = useState();
-
 	const auth = getAuth();
 	const user = auth.currentUser;
-
-	useEffect(() => {
-		console.log(user, "<-- curr user in home screen, we need this log to re-render the page")
-		setState(user);
-	});
 
 	console.log(user, "<--- user in the home screen")
 
@@ -28,14 +21,11 @@ export default function HomeScreen({ navigation }) {
 				}).catch((error) => {
 					// An error happened.
 				});
-				console.log(auth, "<---- auth")
-				navigation.navigate("Login")
 			}}>
 				<Text style={styles.loginText}>sign out</Text>
 			</TouchableOpacity>
 
-			{/* this does not update properly at the moment... */}
-			{/*<Text>Hello, {user.email}! </Text>*/}
+			<Text>Hello, {user.email}! </Text>
 
 			<TouchableOpacity
 				onPress={() => navigation.navigate("Chat")}
