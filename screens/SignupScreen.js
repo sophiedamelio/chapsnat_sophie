@@ -21,15 +21,17 @@ export default function LoginScreen({navigation}) {
 			console.log(userCredential, "<--- user cred in signup")
 			const user = userCredential.user;
 			auth.currentUser = user;
-			//console.log(user, "<--- user in signup function")
+			console.log(user, "<--- user in signup function")
 			// ...
 		})
 		.catch((error) => {
 			const errorCode = error.code;
 			const errorMessage = error.message;
-			// ..
+			console.log(errorCode, "<---- error code");
+			console.log(errorMessage, "<--- error message")
 		});
-		
+
+		navigation.navigate("Home")
 		//console.log(newUser, "<--- new user???")
 	}
 	console.log(auth, "<--- auth")
@@ -42,7 +44,7 @@ export default function LoginScreen({navigation}) {
 				<TextInput
 					placeholder='Email'
 					placeholderTextColor="#003f5c"
-					//onChangeText={(email) => setEmail(email)}
+					onChangeText={(email) => setEmail(email)}
 				/>
 			</View>
 			<View style={styles.inputView}>
@@ -50,13 +52,12 @@ export default function LoginScreen({navigation}) {
 					placeholder='Password'
 					secureTextEntry={true}
 					placeholderTextColor="#003f5c"
-					//onChangeText={(password) => setPassword(password)}
+					onChangeText={(password) => setPassword(password)}
 				/>
 			</View>
 			
 			<TouchableOpacity style={styles.loginBtn} onPress={() => {
 				handleSubmit();
-				navigation.navigate("Home")
 			}}>
 				<Text style={styles.loginText}>Signup</Text>
 			</TouchableOpacity>

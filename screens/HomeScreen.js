@@ -7,18 +7,21 @@ import db from "../firebase.js";
 
 export default function HomeScreen({ navigation }) {
 
+	const [state, setState] = useState();
+
 	const auth = getAuth();
 	const user = auth.currentUser;
 
 	useEffect(() => {
 		console.log(user, "<-- curr user in home screen, we need this log to re-render the page")
+		setState(user);
 	});
+
+	console.log(user, "<--- user in the home screen")
 
 	if (user !== null) {
 		return (
 			<View style={styles.container}>
-			{/* this does not update properly at the moment... */}
-			<Text>Hello, {user.email}! </Text>
 
 			<TouchableOpacity style={styles.logoutBtn} onPress={() => {
 				signOut(auth).then(() => {
@@ -32,6 +35,9 @@ export default function HomeScreen({ navigation }) {
 			}}>
 				<Text style={styles.loginText}>sign out</Text>
 			</TouchableOpacity>
+
+			{/* this does not update properly at the moment... */}
+			<Text>Hello, {user.email}! </Text>
 
 
 			<TouchableOpacity
@@ -65,7 +71,14 @@ export default function HomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
 	logoutBtn: {
-		marginLeft: 250
+		width:"50%",
+		borderRadius:25,
+		margin: 25,
+		height:50,
+		alignItems:"center",
+		justifyContent:"center",
+		backgroundColor:"grey",
+		color: "white"
 	},
 	container: {
 		flex: 1,
@@ -75,5 +88,8 @@ const styles = StyleSheet.create({
 		padding: 10,
 		fontSize: 18,
 		height: 44,
+		backgroundColor: "yellow",
+		borderRadius: 25,
+		margin: 20
 	},
 });

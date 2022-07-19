@@ -28,6 +28,8 @@ export default function LoginScreen({navigation}) {
 
 		let currentUser = auth.currentUser
 		console.log(currentUser, "<--- currentUser in login screen")
+		//console.log(currentUser, "<-- curruser?")
+		navigation.navigate("Home")
 		return currentUser;
 	}
 
@@ -51,7 +53,6 @@ export default function LoginScreen({navigation}) {
 			</View>
 			<TouchableOpacity style={styles.loginBtn} onPress={() => {
 				handleSubmit();
-				navigation.navigate("Home")
 			}}>
 				<Text style={styles.loginText}>LOGIN</Text>
 			</TouchableOpacity>
