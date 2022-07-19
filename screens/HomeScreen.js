@@ -2,36 +2,34 @@ import React from "react";
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import { getAuth, signOut } from "firebase/auth";
 
-
 export default function HomeScreen({ navigation }) {
 
 	const auth = getAuth();
 	const user = auth.currentUser;
 
-	console.log(user, "<--- user in the home screen")
+	// console.log(user, "<--- user in the home screen")
 
 	if (user !== null) {
 		return (
 			<View style={styles.container}>
+        <TouchableOpacity style={styles.logoutBtn} onPress={() => {
+          signOut(auth).then(() => {
+            // Sign-out successful.
+            user = null;
+          }).catch((error) => {
+            // An error happened.
+          });
+        }}>
+          <Text style={styles.loginText}>sign out</Text>
+        </TouchableOpacity>
 
-			<TouchableOpacity style={styles.logoutBtn} onPress={() => {
-				signOut(auth).then(() => {
-					// Sign-out successful.
-					user = null;
-				}).catch((error) => {
-					// An error happened.
-				});
-			}}>
-				<Text style={styles.loginText}>sign out</Text>
-			</TouchableOpacity>
+        <Text>Hello s, {user.email}! </Text>
 
-			<Text>Hello, {user.email}! </Text>
-
-			<TouchableOpacity
-				onPress={() => navigation.navigate("Chat")}
-			>
-				<Text style={styles.item}>Chat</Text>
-			</TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Chat")}
+        >
+          <Text style={styles.item}>Chat</Text>
+        </TouchableOpacity>
 			</View>
 			)
 	} else if (user === null) {
