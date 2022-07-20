@@ -16,6 +16,7 @@ export default function LoginScreen({navigation}) {
 		.then((userCredential) => {
 			const user = userCredential.user;
 			auth.currentUser = user;
+      
 		})
 		.catch((error) => {
 			const errorCode = error.code;
