@@ -25,7 +25,7 @@ export function useAuthentication() {
       const userDataRef = doc(db, 'Users', user.uid);
       getDoc(userDataRef).then((snapshot) => {
         console.log("got user info?", snapshot.data());
-        setUserData({...snapshot.data()});
+        setUserData(snapshot.data());
       });
 
 			setUser(user);
