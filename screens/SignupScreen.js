@@ -20,6 +20,8 @@ export default function LoginScreen({navigation}) {
 		.catch((error) => {
 			const errorCode = error.code;
 			const errorMessage = error.message;
+			console.log(errorCode, "<---- Error Code")
+			console.log(errorMessage, "<----- Error Message")
 		});
 	}
 

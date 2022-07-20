@@ -3,23 +3,26 @@ import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import { getAuth, signOut } from "firebase/auth";
 
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen({ navigation, userData }) {
 
 	const auth = getAuth();
 	const user = auth.currentUser;
 
-	console.log(user, "<--- user in the home screen")
+	//console.log(user, "<--- user in the home screen")
+
+	//console.log(userData, "<-- userData in home")
 
 	if (user !== null) {
 		return (
 			<View style={styles.container}>
 
 			<TouchableOpacity style={styles.logoutBtn} onPress={() => {
-				signOut(auth).then(() => {
+				signOut(auth).then(() => {r
 					// Sign-out successful.
 					user = null;
 				}).catch((error) => {
 					// An error happened.
+					console.log(error, "<---- error on logout")
 				});
 			}}>
 				<Text style={styles.loginText}>sign out</Text>
