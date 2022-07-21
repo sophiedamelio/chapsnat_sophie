@@ -17,22 +17,24 @@ export function useAuthentication() {
   // }
 
 	useEffect(() => {
+    console.log("useEffect in custom hook")
 		const unsubscribeFromAuthStatusChanged = onAuthStateChanged(auth, (user) => {
-		if (user) {
-			// User is signed in, see docs for a list of available properties
-			// https://firebase.google.com/docs/reference/js/firebase.User
-      console.log("HI I HAVE LOGGA IN YES");
-      const userDataRef = doc(db, 'Users', user.uid);
-      getDoc(userDataRef).then((snapshot) => {
-        console.log("got user info?", snapshot.data());
-        setUserData(snapshot.data());
-      });
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        console.log("HI I HAVE LOGGA IN YES");
+        const userDataRef = doc(db, 'Users', user.uid);
+        getDoc(userDataRef).then((snapshot) => {
+          console.log("got user info?", snapshot.data());
+          if (user) setUserData(snapshot.data());
+        });
 
-			setUser(user);
-		} else {
-			// User is signed out
-			setUser(undefined);
-		}
+        setUser(user);
+      } else {
+        // User is signed out
+        setUser(undefined);
+        setUserData(undefined);
+      }
 		});
 
 		return unsubscribeFromAuthStatusChanged;

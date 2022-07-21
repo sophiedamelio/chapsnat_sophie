@@ -1,5 +1,7 @@
 import { Text, View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import db from "../firebase";
 import {useState} from "react"
 
 
@@ -12,16 +14,26 @@ export default function LoginScreen({navigation}) {
 	async function handleSubmit() {
 		console.log("handle submit envoked!!")
 
-		await createUserWithEmailAndPassword(auth, email, password)
+		createUserWithEmailAndPassword(auth, email, password)
 		.then((userCredential) => {
+      console.log("making a new user")
 			const user = userCredential.user;
 			auth.currentUser = user;
       
+      setDoc(doc(db, "Users", user.uid), {
+        username: user.email,
+        bio: ""
+      }).then( arg => {
+        console.log("finished setDoc", arg)
+      });
+      console.log("called setDoc async")
 		})
 		.catch((error) => {
 			const errorCode = error.code;
 			const errorMessage = error.message;
 		});
+
+    
 	}
 
 	return (

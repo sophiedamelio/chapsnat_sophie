@@ -3,11 +3,11 @@ import { View, StyleSheet } from "react-native"
 import { GiftedChat } from "react-native-gifted-chat";
 import db from "../firebase";
 import { arrayUnion, updateDoc, onSnapshot, doc } from 'firebase/firestore';
-
-const getLastID = (array) => array && array?.length > 0 ? array[array.length - 1].id : "";
+import { useAuthentication } from "../utils/hooks/useAuthentication";
 
 export default function ChatScreen({ navigation }) {
 	const [messages, setMessages] = useState([]);
+  const { user, userData } = useAuthentication();
 
 	useEffect(() => {
 		let unsubscribeFromNewSnapshots = onSnapshot(doc(db, "Chats", "myfirstchat"), (snapshot) => {
@@ -28,6 +28,7 @@ export default function ChatScreen({ navigation }) {
     updateDoc(doc(db, "Chats", "myfirstchat"), {
       messages: arrayUnion(newMessages[0])
     });
+    
 	};
 
 return (
@@ -37,8 +38,8 @@ return (
       onSend={(sentMessages) => onSend(sentMessages)}
       user={{
         // current "blue bubble" user
-        _id: "1",
-        name: "Ashwin",
+        _id: user ? user.uid : "anon-user-id",
+        name: userData ? userData.username : "Anonymous",
         avatar: "https://placeimg.com/140/140/any",
       }}
       inverted={false}
