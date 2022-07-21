@@ -18,7 +18,7 @@ export function useAuthentication() {
 			const userDataRef = doc(db, 'Users', user.uid);
 			getDoc(userDataRef).then((snapshot) => {
 			console.log("got user info? ----->", snapshot.data());
-			setUserData({...snapshot.data()});
+			setUserData({...snapshot.data()}); // settting state variable 
 
 			//console.log(userData, "<-- user data")
 			});
@@ -35,6 +35,6 @@ export function useAuthentication() {
 	}, []);
 
 	return {
-		user, userData
+		user, userData // returning state variable
 	};
 }

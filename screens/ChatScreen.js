@@ -5,16 +5,28 @@ import db from "../firebase";
 //import firebase from "firebase/app";
 import { collection, getDocs, arrayUnion, updateDoc, onSnapshot, doc } from 'firebase/firestore';
 
+import { useAuthentication } from '../utils/hooks/useAuthentication'; // check out example from Index.js, you already have done this in your proj
+
 const getLastID = (array) => array && array?.length > 0 ? array[array.length - 1].id : "";
 
 export default function ChatScreen({ navigation }) {
 	const [messages, setMessages] = useState([]);
+
+	const { user, userData } = useAuthentication(); // getting the user data from chatscreen, so we can use someone's data in giftedchat
+	// print out data
+
+	console.log(user, "<-- user in chat")
+	console.log(userData, "<--- user data")
+
 
 	//useEffect(() => {
 	//	let unsubscribeFromNewSnapshots = onSnapshot(doc(db, "Chats", "myfirstchat"), (snapshot) => {
 	//		//console.log("New Snapshot! ", snapshot.data().messages);
 	//		setMessages(snapshot.data().messages);
 	//	});
+
+
+
 	useEffect(() => {
 		let unsubscribeFromNewSnapshots = onSnapshot(doc(db, "Chats", "myfirstchat"), (snapshot) => {
 		const fixTimestampMessages = snapshot.data().messages.map( obj => (
@@ -49,10 +61,11 @@ return (
 		//onSend={(messages) => onSend(messages)}
 		onSend={(sentMessages) => onSend(sentMessages)}
 		user={{
+			// null checking / give default
 			// current "blue bubble" user
 			_id: "1",
-			name: "Ashwin",
-			avatar: "https://placeimg.com/140/140/any",
+			name: user.username
+			//avatar: "https://placeimg.com/140/140/any",
 		}}
 		inverted={false}
 		showUserAvatar={true}

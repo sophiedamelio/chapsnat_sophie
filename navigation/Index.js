@@ -11,5 +11,5 @@ export default function RootNavigation() {
 	//console.log(user, "<-- user in index.js")
 	//console.log(userData, "<---- user data in index.js")
 
-	return user ? <UserStack userData={userData} /> : <AuthStack />;
+	return user ? <UserStack /> : <AuthStack />;
 }
